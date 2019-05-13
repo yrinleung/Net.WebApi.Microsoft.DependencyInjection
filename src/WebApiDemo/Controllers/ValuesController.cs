@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using WebApiDemo.Services;
@@ -10,15 +12,20 @@ namespace WebApiDemo.Controllers
     public class ValuesController : ApiController
     {
         private readonly ITestService _testService;
-        public ValuesController(ITestService testService)
+        private readonly IHttpClientFactory _clientFactory;
+        public ValuesController(ITestService testService, IHttpClientFactory clientFactory)
         {
             _testService = testService;
+            _clientFactory = clientFactory;
 
         }
         // GET api/values
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2", _testService.Get() };
+            var client = _clientFactory.CreateClient();
+            var result = await client.GetStringAsync("https://www.baidu.com/");
+
+            return new string[] { "value1", "value2", _testService.Get(), result };
         }
 
         // GET api/values/5

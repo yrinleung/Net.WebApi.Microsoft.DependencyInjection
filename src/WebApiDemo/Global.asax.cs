@@ -22,6 +22,9 @@ namespace WebApiDemo
 
             services.AddScoped<ITestService, TestService>();
 
+            //Ê¹ÓÃHttpClientFactory
+            services.AddHttpClient();
+
             //Ìæ»»DependencyResolver
             config.DependencyResolver = new MicrosoftDependencyResolver(services.BuildServiceProvider());
 

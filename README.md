@@ -17,6 +17,9 @@ protected void Application_Start()
 
     services.AddScoped<ITestService, TestService>();
 
+    //使用httpClientFactory
+    services.AddHttpClient();
+    
     //替换DependencyResolver
     config.DependencyResolver = new MicrosoftDependencyResolver(services.BuildServiceProvider());
 
